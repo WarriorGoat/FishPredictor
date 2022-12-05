@@ -7,14 +7,39 @@ let stateNames = [];
 let stationNames = [];
 let stationId = [];
 let statesParent = $("select#stateList");
-let stationParent=$("select#stationList");
-    
+let stationParent = $("select#stationList");
+let stationPicked = "";
+let stationNumber = 0;
+let startDate = "";
+let endDate = "";
+let startDatePicked = document.querySelector("#startDate");
+let endDatePicked = document.querySelector("#endDate");
+let submitForm = $("form");
+let answerInput = document.querySelector("#finalAnswer");
+
 createStateList()
 
 
+submitForm.on("submit", (e) => {
+    e.preventDefault();
+    startDate = document.getElementById("startDate");
+    endDate = document.getElementById("endDate");
+    console.log(startDate.value);
+    console.log(endDate.value);
+    console.log(stationNumber)
+    console.log(stationPicked)
+    // updateStatus()
+    // reset();
+    })
 
 
 //Function library
+function getStartDate(){
+    startDate=startDatePicked.value;
+    console.log(startDate);
+}
+
+
 function createStateList(){
 fetch('https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions')
     .then(function(response){
@@ -52,10 +77,31 @@ function createStationList(){
             stationParent.append(newOption);
     }}
 
-function getTideInfo(){
+function getStationInfo(){
     let list2 = document.getElementById("stationList")
-    let stationPicked = list2.options[list2.selectedIndex].text;
-    let stationNumber = list2.options[list2.selectedIndex].value;
+    stationPicked = list2.options[list2.selectedIndex].text;
+    stationNumber = list2.options[list2.selectedIndex].value;
     console.log(stationPicked);
     console.log(stationNumber);
+}
+
+function getTideInfo(){
+fetch(`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?
+begin_date=${startDate}&
+end_date=${endDate}&
+station=${stationNumber}&
+product=predictions&
+datum=MLLW&
+time_zone=lst_ldt&
+interval=hilo&
+units=english&
+application=WarriorGoatFishingPlanner&
+format=json`)
+.then(function(response){
+    return response.json();
+}) 
+.then(function(data){
+    console.log(data)
+})
+
 }

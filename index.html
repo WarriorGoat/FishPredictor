@@ -16,10 +16,10 @@
         <p>This page will allow you to determine the expected tides and weather for the area you choose.</p>
     </div>
         <form>
-            <label id="startDate">Please select the start date.</label>
+            <label>Please select the start date.</label>
             <input type="date" name="startDate" id="startDate">
             <br>
-            <label id="endDate">Please select the end date</label>
+            <label>Please select the end date</label>
             <input type="date" name="endDate" id="endDate">
             <br>
             <label>Please select the state you would like predictions for</label>
@@ -28,7 +28,7 @@
             </select>
             <br>
             <label>Please select the tidal station you would like predictions for</label>
-            <select name="stationList" id="stationList" required="required" onchange="getTideInfo()">
+            <select name="stationList" id="stationList" required="required" onchange="getStationInfo()">
 
             </select>
             <br>
