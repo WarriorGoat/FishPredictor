@@ -14,29 +14,60 @@
     <div>
         <h1>Welcome to your Fishing Planner</h1>
         <p>This page will allow you to determine the expected tides and weather for the area you choose.</p>
+       
     </div>
-        <form>
-            <label>Please select the start date.</label>
-            <input type="date" name="startDate" id="startDate">
-            <br>
-            <label>Please select the end date</label>
-            <input type="date" name="endDate" id="endDate">
-            <br>
-            <label>Please select the state you would like predictions for</label>
+    <div>
+        <form id = "shortTerm">
+            <h2>Short term tidal and weather forecasts</h2>
+            <p>The basic forecast is set for the next seven days, starting with today.  Longer term tidal forecasts are also available below.</p>
+            <label>Please select the state you would like predictions for: </label>
             <select name="stateList" id="stateList" required="required" onchange="createStationList()">
-
             </select>
             <br>
-            <label>Please select the tidal station you would like predictions for</label>
+            <label>Please select the tidal station you would like predictions for: </label>
             <select name="stationList" id="stationList" required="required" onchange="getStationInfo()">
-
             </select>
             <br>
             <input type="submit" value="Submit">
         </form>
-    <div></div>
+    </div>
 
-    <div></div>
+<!-- RESULTS FOR 7 DAY SEARCH -->
+<div id = "tideResults">
+    <h1>7 Day Tidal Forecast</h1>
+    <p>Here is your tidal forecast for the next seven days.</p>
+    <ul id="tidesParent">
+
+    </ul>
+
+
+</div>
+
+
+
+    <div id = "weatherResults">
+        <h1>7 Day Weather Forecast</h1>
+        <p>Here is your weather forecast for the next seven days.</p>
+        <ul id="weatherParent">
+
+        </ul>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
 
 
 

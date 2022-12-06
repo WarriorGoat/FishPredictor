@@ -1,0 +1,16 @@
+div{
+    margin: 10px;
+    padding: 10px;
+    background-color: royalblue;
+    color: gold;
+    text-align: center;
+}
+li{
+    text-align: left;
+    font-size: medium;
+}
+p{
+    text-align: left;
+    font-size: medium;
+    font-style: normal;
+}
