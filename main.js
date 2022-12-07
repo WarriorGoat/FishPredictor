@@ -21,7 +21,7 @@ let tides = []
 let submitForm = $("form#shortTerm");
 let answerInput = document.querySelector("#finalAnswer");
 
-//Call Initial Function to poplulate states list
+//Call Initial Function to poplulate states list and set to today's date.
 createStateList()
 setInitalDates()
 
@@ -33,22 +33,11 @@ submitForm.on("submit", (e) => {
     endDate2=fixDateFormat(endDate);
     getTideInfo();
     getWeatherInfo();
+    getMoonInfo()
     })
 
 
 //Function library
-function populateTideData(array){
-    // if(array.length>0){
-        for (i=0; i<array.length; i++){
-            let tidesParent = $("#tidesParent");
-            let newLI = $(`<li>Date: ${array[i].t} -  Type: ${array[i].type} -  Height: ${array[i].v}</li>`);
-            tidesParent.append(newLI);
-        }
-        // }else{
-        //     alert("We are having trouble with the tide data, please refresh your screen and try again.")
-        // }
-    }
-
 
 function setInitalDates(){
     let date = new Date()
@@ -120,21 +109,21 @@ function getStationInfo(){ //This function is triggered by selecting a station o
             stationLat=stationData[i].lat;
             stationLng=stationData[i].lng;
         }}
-    console.log(stationPicked);
-    console.log(stationNumber);
-    console.log(stationLat,stationLng);
 }
 
 
 function getTideInfo(){
-fetch(`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${startDate2}&end_date=${endDate2}&station=${stationNumber}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=hilo&units=english&application=WarriorGoatFishingPlanner&format=json`)
-.then(function(response){
-    return response.json();
-}) 
-.then(function(tideData){
-    tides = tideData.predictions
-})
-populateTideData(tides);
+    fetch(`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${startDate2}&end_date=${endDate2}&station=${stationNumber}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=hilo&units=english&application=WarriorGoatFishingPlanner&format=json`)
+    .then(function(response){
+        return response.json();
+    }) 
+    .then(function(tideData){
+        tides = tideData.predictions
+        for (i=0; i<tides.length; i++){
+            let tidesParent = $("#tidesParent");
+            let newLI = $(`<li>${tides[i].t} -  Hi or Low?: ${tides[i].type} -  Height: ${tides[i].v}</li>`);
+            tidesParent.append(newLI);
+    }})
 }
 
 
@@ -166,16 +155,41 @@ function getWeatherInfo(){
                 // console.log(weather)
                 return weather;}) 
         })  
-    displayWeather(weather);  
+        for (let i = 0; i < weather.length; i++) {
+            let weatherParent = $("#weatherParent");
+            let newLI = $(`<li font-style='italic'>${weather[i].name}</li>`);
+            let newP = $(`<p>${weather[i].detailedForecast}</p>`)
+            weatherParent.append(newLI);
+            weatherParent.append(newP);
+        }  
     }
     
 
-function displayWeather(array){
-    for (let i = 0; i < array.length; i++) {
-        let weatherParent = $("#weatherParent");
-        let newLI = $(`<li font-style='italic'>${array[i].name}</li>`);
-        let newP = $(`<p>${array[i].detailedForecast}</p>`)
-        weatherParent.append(newLI);
-        weatherParent.append(newP);
-    }
+//This function pulls forecasts from a different api.  Only the moon phase and sunrise and sunset times are used.
+function getMoonInfo(){
+    let moonArray = []
+    fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=${stationLat},${stationLng}&aggregateHours=24&forecastDays=7&includeAstronomy=true&unitGroup=us&shortColumnNames=false&locationMode=array&contentType=json&key=DKN2N5YS24M55P598RJJFP223`)
+    .then(function(response){
+        return response.json();
+    }) 
+    .then(function(data){
+        let moonData = data.locations[0].values;
+        for (let i = 0; i < moonData.length; i++) {
+            let moonObject = {}
+            moonObject.moonPhase = moonData[i].moonphase;
+            moonObject.sunRise = moonData[i].sunrise;
+            moonObject.sunSet = moonData[i].sunset;
+            moonArray.push(moonObject)
+        }
+        for (let i = 0; i < moonArray.length; i++) {
+            let moonParent = $("#moonParent");
+            let sunrise = new Date(moonArray[i].sunRise)
+            sunrise = sunrise.toLocaleString()
+            let sunset = new Date(moonArray[i].sunSet)
+            sunset = sunset.toLocaleString()
+            let phase = moonArray[i].moonPhase *100
+            phase = phase.toFixed()
+            let newLI = $(`<li font-style='italic'>${sunrise}:Sunrise - ${sunset}:Sunset - Moon Phase will be:  ${phase}% of full.</li>`);
+            moonParent.append(newLI);
+    }})
 }

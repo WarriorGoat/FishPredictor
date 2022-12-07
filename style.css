@@ -2,10 +2,9 @@ div{
     margin: 10px;
     padding: 10px;
     background-color: rgba(112, 91, 49, 0.6 );
-    color: rgb(233, 227, 172);
+    color: rgb(233, 228, 187);
     text-align: center;
-    text-shadow: 2px 2px 2px rgb(144, 78, 2);;
- 
+    text-shadow: 2px 2px 2px rgb(112, 60, 0);;
 }
 #header01{
     text-align: center;
