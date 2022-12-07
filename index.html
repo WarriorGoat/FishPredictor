@@ -11,15 +11,16 @@
     <title>FishingPlanner</title>
 </head>
 <body>
-    <div>
-        <h1>Welcome to your Fishing Planner</h1>
-        <p>This page will allow you to determine the expected tides and weather for the area you choose.</p>
+    <div id = "header">
+        <h1 id = "header01">Welcome to your Fishing Planner</h1>
+        <p id = "header01">This page will allow you to determine the expected tides and weather for the area you choose.<br>The page has links to all of the active US coastal tide stations currently supported by NOAA.</p>
+        <p></p>
        
     </div>
     <div>
         <form id = "shortTerm">
-            <h2>Short term tidal and weather forecasts</h2>
-            <p>The basic forecast is set for the next seven days, starting with today.  Longer term tidal forecasts are also available below.</p>
+            <h2 id = "header02">Short term tidal and weather forecasts</h2>
+            <p id = "header02">This is a weather and tidal forecast for all of the NOAA stations in the US.  It will provide forecasts for the next seven days.</p>
             <label>Please select the state you would like predictions for: </label>
             <select name="stateList" id="stateList" required="required" onchange="createStationList()">
             </select>
@@ -34,7 +35,7 @@
 
 <!-- RESULTS FOR 7 DAY SEARCH -->
 <div id = "tideResults">
-    <h1>7 Day Tidal Forecast</h1>
+    <h2>7 Day Tidal Forecast</h2>
     <p>Here is your tidal forecast for the next seven days.</p>
     <ul id="tidesParent">
 
@@ -46,7 +47,7 @@
 
 
     <div id = "weatherResults">
-        <h1>7 Day Weather Forecast</h1>
+        <h2>7 Day Weather Forecast</h2>
         <p>Here is your weather forecast for the next seven days.</p>
         <ul id="weatherParent">
 
