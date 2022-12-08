@@ -1,16 +1,27 @@
 div{
     margin: 10px;
     padding: 10px;
-    background-color: rgba(112, 91, 49, 0.6 );
-    color: rgb(233, 228, 187);
+    background-color: rgba(97, 78, 41, 0.6);
+    color: rgb(248, 245, 222);
     text-align: center;
-    text-shadow: 2px 2px 2px rgb(112, 60, 0);;
+    text-shadow: 1px 1px 1px rgb(7, 4, 1);;
+}
+.card {
+    
+    border-width: 2px;
+    margin: 20px;
+    padding: 1px;
+    width: 18rem;
 }
 #header01{
     text-align: center;
 }
 #header02{
     text-align: center;
+}
+.list-group-item{
+    color: black;
+    text-shadow: none;
 }
 body{
     background-image:  url("sunsetwater.jpg");

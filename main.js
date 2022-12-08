@@ -3,13 +3,11 @@
 let allStations = [];
 let groupedByState = [];
 let stateNames = [];
-let stationLat = ""
-let stationLng = ""
 let stationData = []
 let stationNames = [];
 let stationId = [];
-let statesParent = $("select#stateList");
-let stationParent = $("select#stationList");
+let stationLat = ""
+let stationLng = ""
 let stationPicked = "";
 let stationNumber = 0;
 let startDate = "";
@@ -73,16 +71,20 @@ fetch('https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?typ
             }else if (!stateNames.includes("Other")){stateNames.push("Other")}
         }
         stateNames.sort()
+        let statesParent = $("select#stateList");
         for (let i = 0; i<stateNames.length; i++){ 
             let newOption = $(`<option value='${stateNames[i]}'>${stateNames[i]}</option>`);
-            // statesParent.onchange="console.log('goodbye')"
             statesParent.append(newOption);
     }})
 }
 
 function createStationList(){ //this function is triggered by selecting a state.  It then extracts all of the stations for that state and uses them to poulate the stations pull down list
+    let stationParent = $("select#stationList");
     let list = document.getElementById("stateList")
     let statePicked = list.options[list.selectedIndex].value;
+    if (statePicked==="Other"){
+        statePicked=""
+    }
     stationData = []
     stationParent.empty(); //this clears the pull down list if a different state is picked
     for (i=0; i<allStations.length; i++){
@@ -118,11 +120,14 @@ function getTideInfo(){
         return response.json();
     }) 
     .then(function(tideData){
-        tides = tideData.predictions
+        tides = tideData.predictions;
+        $("#tidesParent").empty();
         for (i=0; i<tides.length; i++){
             let tidesParent = $("#tidesParent");
-            let newLI = $(`<li>${tides[i].t} -  Hi or Low?: ${tides[i].type} -  Height: ${tides[i].v}</li>`);
+            let newLI = $(`<li class="list-group-item">${tides[i].t} -  Hi or Low?: ${tides[i].type} -  Height: ${tides[i].v}</li>`);
+            let newP = $(`<p class="card-text"></p>`);
             tidesParent.append(newLI);
+            tidesParent.append(newP);
     }})
 }
 
@@ -131,9 +136,9 @@ function getWeatherInfo(){
         fetch(`https://api.weather.gov/points/${stationLat},${stationLng}`)
         .then(function(response){
             if (response.status<300 && response.status>199){
-            return response.json();
+                return response.json();
             }else{
-                onsole.log("Problem with initial weather.gov request");
+                console.log("Problem with initial weather.gov request");
                 alert("We are experiencing problems with weather.gov.  Please refresh the screen and resubmit your request.");
                 console.log(error);
                 return;}
@@ -152,16 +157,16 @@ function getWeatherInfo(){
             })
             .then(function(forecastData){  
                 weather = forecastData.properties.periods;
-                // console.log(weather)
-                return weather;}) 
+                $("#weatherParent").empty();
+                for (let i = 0; i < weather.length; i++) {
+                    let weatherParent = $("#weatherParent");
+                    let newLI = $(`<li class="list-group-item">${weather[i].name}</li>`);
+                    let newP = $(`<p class="card-text">${weather[i].detailedForecast}</p>`);
+                    weatherParent.append(newLI);
+                    weatherParent.append(newP);
+                }
+                }) 
         })  
-        for (let i = 0; i < weather.length; i++) {
-            let weatherParent = $("#weatherParent");
-            let newLI = $(`<li font-style='italic'>${weather[i].name}</li>`);
-            let newP = $(`<p>${weather[i].detailedForecast}</p>`)
-            weatherParent.append(newLI);
-            weatherParent.append(newP);
-        }  
     }
     
 
@@ -175,21 +180,24 @@ function getMoonInfo(){
     .then(function(data){
         let moonData = data.locations[0].values;
         for (let i = 0; i < moonData.length; i++) {
-            let moonObject = {}
+            let moonObject = {};
             moonObject.moonPhase = moonData[i].moonphase;
             moonObject.sunRise = moonData[i].sunrise;
             moonObject.sunSet = moonData[i].sunset;
-            moonArray.push(moonObject)
+            moonArray.push(moonObject);
         }
+        $("#moonParent").empty();
         for (let i = 0; i < moonArray.length; i++) {
-            let moonParent = $("#moonParent");
-            let sunrise = new Date(moonArray[i].sunRise)
-            sunrise = sunrise.toLocaleString()
-            let sunset = new Date(moonArray[i].sunSet)
-            sunset = sunset.toLocaleString()
-            let phase = moonArray[i].moonPhase *100
-            phase = phase.toFixed()
-            let newLI = $(`<li font-style='italic'>${sunrise}:Sunrise - ${sunset}:Sunset - Moon Phase will be:  ${phase}% of full.</li>`);
+            let moonParent = $("#moonParent"); 
+            let sunrise = new Date(moonArray[i].sunRise);
+            sunrise = sunrise.toLocaleString();
+            let sunset = new Date(moonArray[i].sunSet);
+            sunset = sunset.toLocaleString();
+            let phase = moonArray[i].moonPhase *100;
+            phase = phase.toFixed();
+            let newLI = $(`<li class="list-group-item">${sunrise}:Sunrise - ${sunset}:Sunset - Moon Phase will be:  ${phase}% of full.</li>`);
+            let newP = $(`<p class="card-text"></p>`);
             moonParent.append(newLI);
+            moonParent.append(newP);
     }})
 }

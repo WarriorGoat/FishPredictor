@@ -15,8 +15,8 @@
         <h1 id = "header01">Welcome to your Fishing Planner</h1>
         <p id = "header01">This page will allow you to determine the expected tides and weather for the area you choose.<br>The page has links to all of the active US coastal tide stations currently supported by NOAA.</p>
         <p></p>
-       
     </div>
+
     <div>
         <form id = "shortTerm">
             <h2 id = "header02">Short term tidal and weather forecasts</h2>
@@ -34,30 +34,35 @@
     </div>
 
     <!-- RESULTS FOR 7 DAY SEARCH -->
-    <div id = "tideResults">
-        <h2>7 Day Tidal Forecast</h2>
-        <p>Here is your tidal forecast for the next seven days.</p>
-        <ul id="tidesParent">
-        </ul>
+    <div class = "card-group">
+        <div class="card" >
+            <div id = "tideResults" class="card-body">
+                <h2 class="card-title">7 Day Tidal Forecast</h2>
+                <p>Here is your tidal forecast for the next seven days.</p>
+                <ul id="tidesParent" class="list-group list-group-flush">
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div id = "weatherResults" class="card-body">
+                <h2 class="card-title">7 Day Weather Forecast</h2>
+                <p>Here is your weather forecast for the next seven days.</p>
+                <ul id="weatherParent" class="list-group list-group-flush">
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div id = "moonResults" class="card-body">
+                <h2 class="card-title">7 Day Moon & Sun Forecast</h2>
+                <p>Here is your moon and sun forecast for the next seven days.</p>
+                <ul id="moonParent" class="list-group list-group-flush">
+                </ul>
+            </div>
+        </div>
     </div>
-
-
-    <div id = "weatherResults">
-        <h2>7 Day Weather Forecast</h2>
-        <p>Here is your weather forecast for the next seven days.</p>
-        <ul id="weatherParent">
-        </ul>
-    </div>
-
-
-    <div id = "Moon Results">
-        <h2>7 Day Moon & Sun Forecast</h2>
-        <p>Here is your moon and sun forecast for the next seven days.</p>
-        <ul id="moonParent">
-        </ul>
-    </div>
-
-
 
 
 
